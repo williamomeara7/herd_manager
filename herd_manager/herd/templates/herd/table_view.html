@@ -1,56 +1,21 @@
-{% extends 'base.html' %} {% block content %}
+<!doctype html>
+<html>
 
-<div class="row mt-3 pt-3">
-  <div class="col-md-4">
-    <div class="border p-3 shadow">
-      <h4>Add Animal</h4>
-      <hr />
-      <form method="post"></form>
-    </div>
-  </div>
+<head>
+    <title>Line Chart</title>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.js"></script>
+    <style>
+        canvas {
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+        }
+    </style>
+</head>
 
-    <div class="col-md-8">
-    <!-- <h1>Your Herd</h1> -->
-    <table class="table table-dark  width='400' height='250'">
-      <thead>
-        <tr>
-          <th scope="col">Type</th>
-          <th scope="col">price</th>
-          <th scope="col">Weight</th>
-          <th scope="col">Profit</th>
-          <th scope="col">Value</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for animal in herd %}
-        <tr>
-          <th scope="row">{{ animal.type }}</th>
-          <td>{{ animal.price }}</td>
-          <td>{{ animal.weight }}</td>
-          <td>{{ animal.profit }}</td>
-          <td>{{ animal.value }}</td>
-          <td>
-            <a class="btn btn-sm btn-info" href="{% url 'update' animal.id %}"
-              >update</a
-            >
-          </td>
-          <td>
-            <a class="btn btn-sm btn-danger" href="{% url 'delete' animal.id %}"
-              >delete</a
-            >
-          </td>
-          {% endfor %}
-        </tr>
-      </tbody>
-    </table>
-
-
-    <h3>Total Value : {{ sum }}</h3>
-    <h3>Total Profit : {{ profit }}</h3>
-  </div>
-
-</div>
-
+<body>
 <div style="width:75%;">
     <canvas id="canvas"></canvas>
 </div>
@@ -103,4 +68,7 @@
     };
 
 </script>
-{% endblock %}
+
+</body>
+
+</html>

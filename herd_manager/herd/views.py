@@ -1,7 +1,10 @@
+from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect
 
 from .forms import AnimalForm
 from .models import Animal, value_per_kg
+
+# values = value_per_kg.objects.all()
 
 
 def getHerd():
@@ -19,6 +22,10 @@ def getHerd():
         })
     return herd
 
+# def getTable():
+#     animal = Animal.objects.get(id=6)
+#     herd = []
+#     for
 
 # Create your views here.
 def herd_list_view(request):
@@ -26,23 +33,66 @@ def herd_list_view(request):
     sum = 0
     profit = 0
     for item in queryset:
+
         sum += item.get_current_value()
         profit += item.get_profit()
     herd = getHerd()
+    # animal = Animal.objects.get(id=5)
     context = {
         "herd": herd,
+        "table": table_view(),
         "animal_list": queryset,
         "sum": sum,
-        "profit": profit
+        "profit": profit,
+        # "table": animal.get_all_values()
     }
     return render(request, "herd/herd_list.html", context)
+
+def table_view():
+    queryset = Animal.objects.all()
+    data = {}
+    for item in queryset:
+        animal_data = item.get_all_values()
+        for current_date in animal_data:
+            if current_date['x'] not in data:
+                data[current_date['x']] = 0
+                data[current_date['x']] += current_date['y'] * item.get_weight()
+            else:
+                data[current_date['x']] += current_date['y'] * item.get_weight()
+
+
+    output = []
+    for key in data:
+        output.append({
+            "y": data[key],
+            "x": key
+        })
+
+    context = {
+        # "dates": animal.get_all_dates(),
+        "table": output
+    }
+    return output
+
+def valid_animal(request):
+    post = request.POST
+    query = value_per_kg.objects.filter(type=f"{post['type']}", letter_grade=f"{post['letter_grade']}",
+                                        number_grade=f"{post['number_grade']}").reverse()
+    for item in query:
+        current_value = item.get_value_per_kg()
+        if current_value != -1:
+            return True
+        return False
 
 
 def animal_add_view(request):
     form = AnimalForm(request.POST or None)
     if form.is_valid():
-        form.save()
-        form = AnimalForm()
+        if valid_animal(request):
+            form.save()
+        else:
+            raise ValidationError('No data for given entry')
+        return redirect('/herd')
     context = {
         'form': form
     }
@@ -55,6 +105,7 @@ def animal_update_view(request, pk):
     if request.method == 'POST':
         form = AnimalForm(request.POST, instance=animal)
         if form.is_valid():
+
             form.save()
             return redirect('/herd')
     context = {
@@ -66,3 +117,11 @@ def animal_update_view(request, pk):
 def animal_delete_view(request, pk):
     Animal.objects.get(id=pk).delete()
     return redirect('/herd')
+
+def test(request, pk):
+    animal = Animal.objects.get(id=pk)
+    animal.get_all_values()
+    context = {
+        "table" : animal.get_all_values()
+    }
+    return render(request, "herd/herd_list.html", context)
