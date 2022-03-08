@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'herd'
+    'herd',
+    'crispy_forms'
+
 ]
 
 MIDDLEWARE = [
@@ -52,10 +54,15 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'herd_manager.urls'
 
+PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
+
+print(PROJECT_PATH)
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [ f"{PROJECT_PATH}/templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

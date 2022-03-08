@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Your Herd</h1>
+ <table class="table table-dark">
+  <thead>
+    <tr>
+      <th scope="col">Type</th>
+      <th scope="col">price</th>
+      <th scope="col">Weight</th>
+      <th scope="col">Profit</th>
+      <th scope="col">Value</th>
+
+    </tr>
+  </thead>
+  <tbody>
+{#  {% for type in herd %}#}
+    {% for animal in herd %}
+    <tr>
+      <th scope="row">{{ animal.type }}</th>
+      <td>{{ animal.price }}</td>
+      <td>{{ animal.weight }}</td>
+      <td>{{ animal.profit }}</td>
+      <td>{{ animal.value }}</td>
+        <td><a class="btn btn-sm btn-info" href="{% url "update" animal.id %}">update</a></td>
+        <td><a class="btn btn-sm btn-danger" href="{% url "delete" animal.id %}">delete</a></td>
+    {% endfor %}
+    </tr>
+</table>
+    <h3>Total Value : {{ sum }}</h3>
+    <h3>Total Profit : {{ profit }}</h3>
+
+{% endblock %}

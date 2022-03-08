@@ -1,1 +1,7 @@
 .idea/
+/herd_manager/herd/__init__.py
+
+
+*.pyc
+
+herd_manager/herd/migrations/
