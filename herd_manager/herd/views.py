@@ -1,7 +1,10 @@
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect
 
-from .forms import AnimalForm
+from .forms import AnimalForm, CreateUserForm
 from .models import Animal, value_per_kg
 
 # values = value_per_kg.objects.all()
@@ -74,6 +77,7 @@ def table_view():
     }
     return output
 
+
 def valid_animal(request):
     post = request.POST
     query = value_per_kg.objects.filter(type=f"{post['type']}", letter_grade=f"{post['letter_grade']}",
@@ -85,14 +89,49 @@ def valid_animal(request):
         return False
 
 
+
+
+
+def register_page(request):
+    form = CreateUserForm()
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, f'User {form.cleaned_data["username"]} was created')
+
+    context = {'form': form}
+    return render(request, "accounts/register.html", context)
+
+
+
+def login_page(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect("/herd")
+        else:
+            messages.add_message(request, messages.INFO, "Username or password is incorrect")
+    context = {}
+    return render(request, "accounts/login.html", context)
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('login')
+
 def animal_add_view(request):
     form = AnimalForm(request.POST or None)
     if form.is_valid():
         if valid_animal(request):
             form.save()
         else:
-            raise ValidationError('No data for given entry')
-        return redirect('/herd')
+            messages.add_message(request, messages.WARNING, 'No data for given entry')
     context = {
         'form': form
     }

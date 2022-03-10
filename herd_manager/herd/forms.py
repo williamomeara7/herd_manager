@@ -1,7 +1,24 @@
 
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 from .models import Animal
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 CHOICES_TYPE = (
     ("Cow", "Cow"), ("Young Bull", "Young Bull"), ("Steer", "Steer"), ("Bull", "Bull"), ("Heifer", "Heifer")
@@ -32,4 +49,12 @@ class AnimalForm(forms.ModelForm):
             'weight'
         ]
 
+
+
+
+class CreateUserForm(UserCreationForm):
+
+    class Meta:
+        model = User
+        fields = ["username", "email", "password1", "password2"]
 

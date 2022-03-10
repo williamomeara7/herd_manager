@@ -15,11 +15,6 @@
         replaceme
 
     {% endblock %}
-{#      <h4>Contact us directly if you have any questions</h4>#}
-{#      <p>#}
-{#        Please write your name, email address and a message below if you have any questions.#}
-{#        One of our staff members will be happy to contact you directly and answer your questions as soon as possible.#}
-{#      </p>#}
       <form method="post">
           {% csrf_token %}
                 {{ form.type|as_crispy_field }}
@@ -28,12 +23,18 @@
                 {{ form.price|as_crispy_field }}
                 {{ form.weight|as_crispy_field }}
 
-
-
 {#              {{form.as_p}}#}
               <button type="submit">Submit </button>
           </form>
       </div>
+
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
 
     </body>
 </html>

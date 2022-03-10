@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" href="#">Ya Herd</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -10,8 +10,24 @@
         <a class="nav-link" href="/herd">Your Herd <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="./add">Add Animal</a>
+        <a class="nav-link" href="/herd/add">Add Animal</a>
       </li>
       </ul>
   </div>
+
+    <span class="hello-msg">Hello, {{ request.user }} </span>
+    <span><a class="hello-msg" href="{% url 'logout' %}"> Logout</a></span>
+
 </nav>
+
+
+<style>
+
+    .hello-msg{
+        font-size: 18px;
+        color: #fff;
+        margin-right:20px;
+    }
+
+
+</style>
