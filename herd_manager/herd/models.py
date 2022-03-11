@@ -1,5 +1,7 @@
 from datetime import datetime
 
+from django.conf import settings
+from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
@@ -10,7 +12,11 @@ from dateutil import parser
 class Animal(models.Model):
     # class Meta:
     #     verbose_name_plural = 'animals'
-
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        default=""
+    )
     type = models.CharField(max_length=120)
     letter_grade = models.CharField(max_length=120)
     number_grade = models.CharField(max_length=120)

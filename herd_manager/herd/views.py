@@ -10,8 +10,10 @@ from .models import Animal, value_per_kg
 # values = value_per_kg.objects.all()
 
 
-def getHerd():
-    queryset = Animal.objects.all()
+def getHerd(request, queryset):
+
+    # qu = models.user.Animal
+    # queryset = request.user.animal_set.all()
     herd = []
     for item in queryset:
         herd.append({
@@ -32,27 +34,28 @@ def getHerd():
 
 # Create your views here.
 def herd_list_view(request):
-    queryset = Animal.objects.all()
+    queryset = request.user.animal_set.all()
+    print(request.user)
+    # queryset = Animal.objects.all()
     sum = 0
     profit = 0
     for item in queryset:
 
         sum += item.get_current_value()
         profit += item.get_profit()
-    herd = getHerd()
     # animal = Animal.objects.get(id=5)
     context = {
-        "herd": herd,
-        "table": table_view(),
-        "animal_list": queryset,
+        "herd": getHerd(request, queryset),
+        "table": table_view(request, queryset),
+        # "animal_list": queryset,
         "sum": sum,
         "profit": profit,
         # "table": animal.get_all_values()
     }
     return render(request, "herd/herd_list.html", context)
 
-def table_view():
-    queryset = Animal.objects.all()
+def table_view(request, queryset):
+    # queryset = request.user.animal_set.all()
     data = {}
     for item in queryset:
         animal_data = item.get_all_values()
@@ -129,7 +132,11 @@ def animal_add_view(request):
     form = AnimalForm(request.POST or None)
     if form.is_valid():
         if valid_animal(request):
+            form = form.save(commit=False)
+            form.author = request.user
             form.save()
+            return redirect("/herd")
+
         else:
             messages.add_message(request, messages.WARNING, 'No data for given entry')
     context = {
@@ -144,9 +151,11 @@ def animal_update_view(request, pk):
     if request.method == 'POST':
         form = AnimalForm(request.POST, instance=animal)
         if form.is_valid():
-
+            form = form.save(commit=False)
+            form.user = request.user
             form.save()
             return redirect('/herd')
+
     context = {
         'form': form
     }
