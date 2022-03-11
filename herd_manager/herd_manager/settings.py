@@ -9,6 +9,8 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+# import django
+# django.setup()
 import os
 from pathlib import Path
 
@@ -39,8 +41,18 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'herd',
     'crispy_forms',
-    'chart_tools'
+    'chart_tools',
+    "guest_user"
+    # 'django.contrib.auth.backends.ModelBackend',
 
+    # 'lazysignup.backends.LazySignupBackend',
+
+]
+
+AUTHENTICATION_BACKENDS = [
+   "django.contrib.auth.backends.ModelBackend",
+   # it should be the last entry to prevent unauthorized access
+   "guest_user.backends.GuestBackend",
 ]
 
 MIDDLEWARE = [

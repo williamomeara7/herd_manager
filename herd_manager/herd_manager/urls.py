@@ -21,5 +21,7 @@ from .views import home_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('herd/', include('herd.urls')),
-    path('', home_view)
+    path('', home_view),
+    path("convert/", include("guest_user.urls")),
+
 ]

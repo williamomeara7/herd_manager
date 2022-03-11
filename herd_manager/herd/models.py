@@ -15,7 +15,8 @@ class Animal(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        default=""
+        default="",
+        blank=True
     )
     type = models.CharField(max_length=120)
     letter_grade = models.CharField(max_length=120)

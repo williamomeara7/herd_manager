@@ -1,4 +1,5 @@
-
+from crispy_forms.bootstrap import InlineRadios
+from crispy_forms.layout import Layout
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -33,9 +34,10 @@ CHOICES_NUMBER = (
     ("3+", "3+"), ("4-", "4-"), ("4=", "4="), ("4+", "4+"), ("5-", "5-"), ("5=", "5="), ("5+", "5+")
 )
 class AnimalForm(forms.ModelForm):
-    type = forms.ChoiceField(choices=CHOICES_TYPE)
-    letter_grade = forms.ChoiceField(choices=CHOICES_LETTER)
-    number_grade = forms.ChoiceField(choices=CHOICES_NUMBER)
+    type = forms.ChoiceField(choices=CHOICES_TYPE, widget=forms.RadioSelect())
+    letter_grade = forms.ChoiceField(choices=CHOICES_LETTER, widget=forms.RadioSelect())
+    number_grade = forms.ChoiceField(choices=CHOICES_NUMBER, widget=forms.RadioSelect())
+
 
     class Meta:
         model = Animal

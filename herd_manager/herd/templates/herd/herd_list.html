@@ -1,12 +1,51 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% block content %}
 
 <div class="row mt-3 pt-3">
   <div class="col-md-4">
     <div class="border p-3 shadow">
       <h4>Add Animal</h4>
       <hr />
-      <form method="post"></form>
+     <form action="" method="post">
+          {% csrf_token %}
+              <div class="myrrereadio" title="type">
+
+                {% for option in form.type %}
+                    {{ option }}
+                {% endfor %}
+              </div>
+                <hr>
+{#                {{ form.type|as_crispy_field }}#}
+              <div class="myradio">
+                {% for option in form.letter_grade %}
+                    {{ option }}
+                {% endfor %}
+              <hr>
+              </div>
+              <div class="myradio">
+                {% for option in form.number_grade %}
+                    {{ option }}
+                {% endfor %}
+              <hr>
+              </div>
+                {{ form.price|as_crispy_field }}
+                {{ form.weight|as_crispy_field }}
+
+{#              {{form.as_p}}#}
+     <hr>
+              <input type="submit"> </input>
+
+          </form>
+
     </div>
+          {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
   </div>
 
     <div class="col-md-8">
@@ -51,10 +90,13 @@
 
 </div>
 
-<div style="width:75%;">
+<div style="width:100%;">
     <canvas id="canvas"></canvas>
 </div>
 <script>
+
+
+
     var timeFormat = 'DD/MM/YYYY';
 
     var config = {
@@ -75,6 +117,10 @@
                 display: true,
                 // text:    "Chart.js Time Scale"
             },
+            interaction: {
+                mode: 'yAxis',
+                {#axis: 'x'#}
+             },
             scales:     {
                 xAxes: [{
                     type:       "time",

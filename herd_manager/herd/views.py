@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 
 from .forms import AnimalForm, CreateUserForm
 from .models import Animal, value_per_kg
+from guest_user.decorators import allow_guest_user
 
 # values = value_per_kg.objects.all()
 
@@ -33,29 +34,39 @@ def getHerd(request, queryset):
 #     for
 
 # Create your views here.
+@allow_guest_user
 def herd_list_view(request):
-    queryset = request.user.animal_set.all()
-    print(request.user)
-    # queryset = Animal.objects.all()
+    animal_form = AnimalForm()
+    if request.method == 'POST':
+        print("inside")
+        animal_form = AnimalForm(request.POST or None)
+        if animal_form.is_valid():
+            if valid_animal(request):
+                animal_form = animal_form.save(commit=False)
+                animal_form.author = request.user
+                animal_form.save()
+                messages.add_message(request, messages.WARNING, 'Animal was sucessfully saved')
+                return redirect("/herd")
+    if request.user.is_authenticated:
+        queryset = request.user.animal_set.all()
+    else:
+        queryset = []
     sum = 0
     profit = 0
     for item in queryset:
-
         sum += item.get_current_value()
         profit += item.get_profit()
-    # animal = Animal.objects.get(id=5)
     context = {
         "herd": getHerd(request, queryset),
         "table": table_view(request, queryset),
-        # "animal_list": queryset,
         "sum": sum,
         "profit": profit,
-        # "table": animal.get_all_values()
+        'form': animal_form
     }
+
     return render(request, "herd/herd_list.html", context)
 
 def table_view(request, queryset):
-    # queryset = request.user.animal_set.all()
     data = {}
     for item in queryset:
         animal_data = item.get_all_values()
@@ -128,6 +139,7 @@ def logout_user(request):
     logout(request)
     return redirect('login')
 
+
 def animal_add_view(request):
     form = AnimalForm(request.POST or None)
     if form.is_valid():
@@ -135,8 +147,8 @@ def animal_add_view(request):
             form = form.save(commit=False)
             form.author = request.user
             form.save()
-            return redirect("/herd")
-
+            messages.add_message(request, messages.WARNING, 'Animal was sucessfully saved')
+            form = AnimalForm()
         else:
             messages.add_message(request, messages.WARNING, 'No data for given entry')
     context = {

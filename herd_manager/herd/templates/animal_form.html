@@ -5,6 +5,10 @@
 <!DOCTYPE html>
 <html>
   <head>
+      <script>
+
+
+      </script>
     </head>
     <body>
 
@@ -17,10 +21,25 @@
     {% endblock %}
       <form method="post">
           {% csrf_token %}
-                {{ form.type|as_crispy_field }}
-                {{ form.letter_grade|as_crispy_field }}
-                {{ form.number_grade|as_crispy_field }}
-                {{ form.price|as_crispy_field }}
+              <div class="myradio">
+                <h4>Type</h4>
+                {% for option in form.type %}
+                    {{ option }}
+                {% endfor %}
+              </div>
+{#                {{ form.type|as_crispy_field }}#}
+              <div class="myradio">
+                <h4>letter_grade</h4>
+                {% for option in form.letter_grade %}
+                    {{ option }}
+                {% endfor %}
+              </div>
+              <div class="myradio">
+                <h4>number_grade</h4>
+                {% for option in form.number_grade %}
+                    {{ option }}
+                {% endfor %}
+              </div>                {{ form.price|as_crispy_field }}
                 {{ form.weight|as_crispy_field }}
 
 {#              {{form.as_p}}#}
