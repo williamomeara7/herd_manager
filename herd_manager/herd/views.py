@@ -47,6 +47,8 @@ def herd_list_view(request):
                 animal_form.save()
                 messages.add_message(request, messages.WARNING, 'Animal was sucessfully saved')
                 return redirect("/herd")
+            else:
+                messages.add_message(request, messages.WARNING, 'No data for given entry')
     if request.user.is_authenticated:
         queryset = request.user.animal_set.all()
     else:

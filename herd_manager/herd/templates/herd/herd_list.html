@@ -2,8 +2,6 @@
 {% load crispy_forms_filters %}
 {% block content %}
 
-<div class="row mt-3 pt-3">
-  <div class="col-md-4">
     <div class="border p-3 shadow">
       <h4>Add Animal</h4>
       <hr />
@@ -31,6 +29,7 @@
               </div>
                 {{ form.price|as_crispy_field }}
                 {{ form.weight|as_crispy_field }}
+                
 
 {#              {{form.as_p}}#}
      <hr>
@@ -46,11 +45,38 @@
                 {% endfor %}
             </ul>
         {% endif %}
-  </div>
+  
 
-    <div class="col-md-8">
+  {% comment %} <h4>Total Value : {{ sum }} <hr> Total Profit : {{ profit }}</h4> {% endcomment %}
+
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th scope="col">Total Value</th>
+        <th scope="col">Total Profit</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ sum }} €</td> 
+        <td>{{ profit }} € </td> 
+
+    </tbody>
+  </table>
+
+    <div style="width: 100%; overflow-x: auto; overflow-y: hidden; direction: rtl">
+      <div style="width: 3000px; height: 300px">
+        <canvas id="canvas" height="300" width="0"></canvas>
+      </div>
+    </div>
+
+
+
+    <div style="width: 100%; overflow-x: hidden; overflow-y: auto">
+      <div style="width: 100%; height: 300px">
     <!-- <h1>Your Herd</h1> -->
-    <table class="table table-dark  width='400' height='250'">
+
+    <table  class="table table-responsive-md table-hover">
       <thead>
         <tr>
           <th scope="col">Type</th>
@@ -84,15 +110,14 @@
     </table>
 
 
-    <h3>Total Value : {{ sum }}</h3>
-    <h3>Total Profit : {{ profit }}</h3>
+
   </div>
 
+
+  
 </div>
 
-<div style="width:100%;">
-    <canvas id="canvas"></canvas>
-</div>
+
 <script>
 
 

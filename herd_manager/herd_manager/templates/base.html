@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+
+	{% load guest_user %}
+
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta
@@ -77,6 +80,20 @@
 			box-shadow: none !important;
 			outline: 0px !important;
 		}
+
+		.chartWrapper {/* w w w. j a v  a2 s.co  m*/
+			position: relative;
+		 }
+		 .chartWrapper > canvas {
+			position: absolute;
+			left: 0;
+			top: 0;
+			pointer-events:none;
+		 }
+		 .chartAreaWrapper {
+			width: 600px;
+			overflow-x: scroll;
+		 }
 
 	</style>
 
