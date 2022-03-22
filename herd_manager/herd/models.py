@@ -73,7 +73,7 @@ class value_per_kg(models.Model):
     letter_grade = models.CharField(max_length=120)
     number_grade = models.CharField(max_length=120)
     value_per_kg_cents = models.DecimalField(
-        decimal_places=2, max_digits=100000)
+        decimal_places=2, max_digits=100)
 
     def get_value_per_kg(self):
         return float(self.value_per_kg_cents)
