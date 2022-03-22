@@ -1,4 +1,4 @@
-Django==4.0.3
+Django>=3.2.0,<3.3.0
 django-chart-tools==1.0
 django-crispy-forms==1.14.0
 django-guest-user==0.5.2
