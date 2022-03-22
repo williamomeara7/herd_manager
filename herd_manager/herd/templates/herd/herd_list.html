@@ -132,11 +132,15 @@
                     label: "Value",
                     data: {{ table|safe }},
                     fill: false,
-                    borderColor: 'red'
+                    borderColor: 'red',
+                    pointHoverRadius: 10,
+                    radius: 5,
+                    hitRadius: 10,
                 }
             ]
         },
         options: {
+
             responsive: true,
             title:      {
                 display: true,
