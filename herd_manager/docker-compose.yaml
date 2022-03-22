@@ -1,0 +1,31 @@
+version: '3.9'
+services:
+  # herd_manager:
+  #   depends_on:
+  #     - postgres_db
+  #   build: 
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   image: herd_manager:v1
+  #   env_file:
+  #     - herd_manager/.env 
+  #   environment:
+  #     - PORT=8020
+  #   ports:
+  #   - "8001:8020"
+  #   command: sh -c "chmod +x /app/migrate.sh && sh /app/migrate.sh && /app/entrypoint.sh"
+  postgresdb:
+    image: postgres
+    env_file:
+     - herd_manager/.env 
+    command: -p 5434
+    expose:
+      - 5434
+    ports:
+      - "5434:5434"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+
+volumes:
+  postgres_data:
