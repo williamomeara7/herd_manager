@@ -1,7 +1,7 @@
 Django>=3.2.0,<3.3.0
 django-chart-tools==1.0
-django-crispy-forms==1.14.0
-django-guest-user==0.5.2
+django-crispy-forms
+django-guest-user
 python-dateutil==2.8.2
 six==1.16.0
 sqlparse==0.4.2
