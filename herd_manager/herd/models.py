@@ -21,8 +21,8 @@ class Animal(models.Model):
     type = models.CharField(max_length=120)
     letter_grade = models.CharField(max_length=120)
     number_grade = models.CharField(max_length=120)
-    price = models.DecimalField(decimal_places=2, max_digits=100000)
-    weight = models.DecimalField(decimal_places=2, max_digits=100000)
+    price = models.DecimalField(decimal_places=2, max_digits=100)
+    weight = models.DecimalField(decimal_places=2, max_digits=100)
 
     def get_absolute_url(self):
         return reverse("animal-view", kwargs={"my_id": self.id})
@@ -72,7 +72,8 @@ class value_per_kg(models.Model):
     type = models.CharField(max_length=120)
     letter_grade = models.CharField(max_length=120)
     number_grade = models.CharField(max_length=120)
-    value_per_kg_cents = models.DecimalField(decimal_places=2, max_digits=100000)
+    value_per_kg_cents = models.DecimalField(
+        decimal_places=2, max_digits=100000)
 
     def get_value_per_kg(self):
         return float(self.value_per_kg_cents)
